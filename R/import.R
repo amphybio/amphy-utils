@@ -180,6 +180,10 @@ read_sheet <- function(
     #      write.table(raw_dat[[name]], filename, sep = '\t', row.names = FALSE)
     #  }
 
+    if (!requireNamespace('readxl', quietly = TRUE)) {
+        stop("Package 'readxl' is not installed but is required.")
+    }
+
     is_nil <- function(x) is.null(x) || (length(x) == 1 && is.na(x))
 
     # Verify data file exists and is readable.

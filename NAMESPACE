@@ -1,3 +1,4 @@
+export(combat)
 export(construct_table)
 export(read_sheet)
 export(sheet_cols)
