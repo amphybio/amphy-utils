@@ -22,4 +22,5 @@ Imports:
     tidyr,
     withr
 Suggests:
-    readxl
+    readxl,
+    sva
