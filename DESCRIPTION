@@ -1,0 +1,25 @@
+Package: amphy
+Version: 0.1.0
+Title: AMPhyBio Laboratory's Utilities for Cientific Computation
+Description: General utilities for data analysis.
+Authors@R: c(
+    person("Alexandre", "Ramos", , "alex.ramos@usp.br", role = c("cph"),
+           comment = c(ORCID = "0000-0003-4681-3069")),
+    person("Leonardo", "Gama", , "leonardo.gama@usp.br", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-2633-0935")))
+License: MPL-2.0
+URL: https://github.com/amphybio/amphy-utils
+BugReports: https://github.com/amphybio/amphy-utils/issues
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports:
+    dplyr,
+    magrittr,
+    purrr,
+    rlang,
+    stringr,
+    tibble,
+    tidyr,
+    withr
+Suggests:
+    readxl
