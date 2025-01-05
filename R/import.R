@@ -96,7 +96,8 @@ read_sheet <- function(
         id_col = NULL,
         id_cast = NULL,
         sensible_cols = NULL,
-        hash_func = hash) {
+        hash_func = hash,
+        ...) {
 
     #'  Read an Excel sheet applying some checks.
     #'
@@ -134,6 +135,8 @@ read_sheet <- function(
     #'      hash_func (function):
     #'          A function that converts vectors (the columns specifiend by
     #'          'sensible_cols') to vectors of hash strings.
+    #'      ...:
+    #'          Extra arguments passed to 'readxl::read_excel'.
     #'
     #'  Returns:
     #'      data.frame: The read table (sheet of spreadsheet file).
@@ -204,8 +207,12 @@ read_sheet <- function(
         #TODO
     #}
 
-    dat <- path |>
-        readxl::read_excel(if (!is_nil(sheet)) sheet, range, guess_max = guess_max) |>
+    dat <- readxl::read_excel(
+            path = path,
+            sheet = if (!is_nil(sheet)) sheet,
+            range = range,
+            guess_max = guess_max,
+            ...) |>
         #FIXME: trim_ws from read_excel is ignored (using str_trim)
         mutate(across(where(is.character), str_trim)) |>
         as.data.frame()
