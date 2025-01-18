@@ -96,7 +96,7 @@ read_sheet <- function(
         id_col = NULL,
         id_cast = NULL,
         sensible_cols = NULL,
-        hash_func = hash,
+        hash_func = partial(sapply, FUN = rlang::hash),
         ...) {
 
     #'  Read an Excel sheet applying some checks.
