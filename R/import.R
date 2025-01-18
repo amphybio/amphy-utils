@@ -269,7 +269,9 @@ construct_table <- function(
         table_name,
         origin_tables,
         annot_table,
-        check = TRUE) {
+        check = TRUE,
+        casting = NULL,
+        na_values = NULL) {
 
     #'  Generate a tidy (well format) data.frame from one or potentially more
     #'  tabulated file's original data.
@@ -303,7 +305,7 @@ construct_table <- function(
     data <- table_name |>
         construct_from_annotation(origin_tables, annot_table) |>
         relabel_factors() |>
-        cast_types() |>
+        cast_types(casting, na_values) |>
         generate_derived()
 
     #TODO: implement and test
@@ -369,7 +371,7 @@ relabel_factors <- function(data) {
 }
 
 
-cast_types <- function(data, casting = NULL) {
+cast_types <- function(data, casting = NULL, na_values = NULL) {
 
     cast_func <- default_casting
     if (!is.null(casting))
@@ -377,11 +379,29 @@ cast_types <- function(data, casting = NULL) {
 
     cast_columns <- annotation(data) |>
         filter(origin != 'ALL', origin != 'DERIVED') %>%
-        { pull(., class) |> set_names(rownames(.)) }
+        { pull(., type) |> set_names(rownames(.)) }
 
     for (name in names(cast_columns)) {
-        cast <- cast_func[[cast_columns[name]]]
-        data[[name]] <- cast(data[[name]])
+        x <- data[[name]]
+        type <- cast_columns[name]
+
+        # Turn specified values into NAs.
+        if (!is.null(na_values) && is.character(x)) {
+            x[x %in% na_values] <- NA
+        }
+
+        casted_x <- cast_func[[type]](x)
+        data[[name]] <- casted_x
+
+        # Show a helpful message.
+        na_before <- is.na(x)
+        na_after <- is.na(casted_x)
+        if (!identical(na_before, na_after)) {
+            bad_values <- unique(x[na_before != na_after])
+            elements <- str_c(bad_values, sep='", "')
+            msg <- str_glue('Cannot coerce values of variable {name} to {type}: "{elements}"')
+            warning(msg)
+        } 
     }
 
     data
