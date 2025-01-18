@@ -402,7 +402,7 @@ cast_types <- function(data, casting = NULL, na_values = NULL) {
             bad_values <- unique(x[na_before != na_after])
             elements <- str_c(bad_values, sep='", "')
             msg <- str_glue('Cannot coerce values of variable {name} to {type}: "{elements}"')
-            warning(msg)
+            warning(msg, immediate. = TRUE)
         } 
     }
 
