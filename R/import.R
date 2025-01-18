@@ -341,15 +341,17 @@ construct_from_annotation <- function(
             rename_with(partial(extract, columns), !id)
     }
 
+    # Join parts.
+    df <- parts |>
+        reduce(full_join, by = 'id')
+
     # Generate the 'annotation' attribute.
     annot_table <- annot_table |>
         filter(table == table_name) |>
         select(!table) |>
         column_to_rownames('variable')
 
-    # Join parts and bind annotation.
-    parts |>
-        reduce(full_join, by = 'id') |>
+    df |>
         set_attr('annotation', annot_table) %>%
         set_class(c('annot_df', class(.)))
 }
