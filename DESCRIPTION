@@ -1,5 +1,5 @@
 Package: amphy
-Version: 0.1.0
+Version: 0.2.0
 Title: AMPhyBio Laboratory's Utilities for Cientific Computation
 Description: General utilities for data analysis.
 Authors@R: c(

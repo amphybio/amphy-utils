@@ -5,7 +5,7 @@
 # file, you can obtain one at https://mozilla.org/MPL/2.0/
 #
 # Project:  AMPhyBio Utilities
-# Version:  0.1.0
+# Version:  0.2.0
 # Created:  24-10-2024
 # Authors:
 #   - Leonardo Gama <leonardo.gama@usp.br> <leogama@github>
