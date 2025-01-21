@@ -72,6 +72,19 @@ as_ordered_keep_levels <- function(x) {
     }
 }
 
+excel_date <- function(x){
+    EXCEL_EPOCH <- "1899-12-30"  # 1900-01-01 actually
+    if(inherits(x,"Date")){
+        x
+    }else if(is.numeric(x)){
+        as.Date(x, origin = EXCEL_EPOCH)
+    }else {
+        text_date <- as.Date(x, optional = TRUE)
+        number_date <- as.Date(as.numeric(x), origin = EXCEL_EPOCH)
+        text_date[is.na(text_date)] <- number_date
+        text_date
+    }
+}
 
 default_casting <- list(
     binary = as.logical,
@@ -79,7 +92,8 @@ default_casting <- list(
     ordinal = as_ordered_keep_levels,
     discrete = as.integer,
     continuous = as.numeric,
-    date = as.Date,  # should use POSIX time?
+    date = partial(as.Date, optional = TRUE),  # should use POSIX time?
+    excel_date = excel_date, 
     text = as.character
 )
 
