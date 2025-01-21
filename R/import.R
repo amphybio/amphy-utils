@@ -400,8 +400,8 @@ cast_types <- function(data, casting = NULL, na_values = NULL) {
         na_after <- is.na(casted_x)
         if (!identical(na_before, na_after)) {
             bad_values <- unique(x[na_before != na_after])
-            elements <- str_c(bad_values, sep='", "')
-            msg <- str_glue('Cannot coerce values of variable {name} to {type}: "{elements}"')
+            elements <- str_c(bad_values, collapse = '", "')
+            msg <- str_glue('Cannot coerce values of variable {name} to {type}: "{elements}"\n\n')
             warning(msg, immediate. = TRUE)
         } 
     }
